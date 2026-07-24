@@ -4,11 +4,13 @@
 
 ## Status
 
-Early scaffold (2026-07-21). Next.js + Supabase auth (login/signup/password
-reset) is fully working. The compliance schema (`av_compliance_item_types`,
-`av_compliance_items`, `av_compliance_item_history`) is created and seeded
-with realistic data. **No live compliance list/create UI yet** — that's an
-explicit, deliberate v1 scope cut, see [`SCOPE.md`](./SCOPE.md).
+Next.js + Supabase auth (login/signup/password reset) is fully working. The
+compliance schema (`av_compliance_item_types`, `av_compliance_items`,
+`av_compliance_item_history`) is created and seeded with realistic data.
+**Live compliance list/create/status-update UI shipped 2026-07-24** (`/`
+lists items sorted overdue-first with an inline status dropdown that writes
+to the history table; `/new` creates items) — see [`SCOPE.md`](./SCOPE.md)
+for what's still deferred (Engineering, the Owner's Lens signal bridge).
 
 This repo exists so the module has its own home per the Dipstify
 architecture rule ("every page has their own repo"), matching the pattern
