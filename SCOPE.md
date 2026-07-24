@@ -34,10 +34,18 @@ signal wiring, PNLVerified deploy+seed, the demo recording):
 - Dipstify branding (logo, "Dipstify" eyebrow + "AdminVerified" wordmark).
 
 **v1 explicitly does NOT ship:**
-- A compliance list/create/status-update UI. The home page just shows a
+- ~~A compliance list/create/status-update UI. The home page just shows a
   seeded-item count as proof the schema landed — nothing to actually
-  manage yet. This is the same trajectory PNLVerified itself took (scaffold
-  + schema first, its intake UI came later).
+  manage yet.~~ **Shipped 2026-07-24** — same trajectory PNLVerified took
+  (scaffold + schema first, UI came later): `/` lists every item sorted
+  overdue → due_soon → preparing → on_track, with an inline status dropdown
+  per row (writes both the item row and an `av_compliance_item_history`
+  entry); `/new` creates an item against the seeded item-type list. Not yet
+  tested end-to-end against a live login in this session — see the build
+  session's own closing note for why (sandbox network policy blocks direct
+  `*.supabase.co` calls from the dev server; `tsc --noEmit` and `next
+  build` both pass clean, and the queries were checked column-by-column
+  against `0001_compliance_schema.sql` instead).
 - **Engineering.** Station Control's migration 046 is labeled "Engineering"
   in its header comment, but the live app code
   (`DEPARTMENT_EXTRA_FIELDS['Ops']`, `renderStationVolumeGrid`,
