@@ -46,7 +46,7 @@ signal wiring, PNLVerified deploy+seed, the demo recording):
   `*.supabase.co` calls from the dev server; `tsc --noEmit` and `next
   build` both pass clean, and the queries were checked column-by-column
   against `0001_compliance_schema.sql` instead).
-- **Engineering.** Station Control's migration 046 is labeled "Engineering"
+- ~~**Engineering.** Station Control's migration 046 is labeled "Engineering"
   in its header comment, but the live app code
   (`DEPARTMENT_EXTRA_FIELDS['Ops']`, `renderStationVolumeGrid`,
   `loadOpsStationDetail` in `katiwala-owner-os-/index.html`) treats that
@@ -55,7 +55,19 @@ signal wiring, PNLVerified deploy+seed, the demo recording):
   (`open_repair_count`, `repairs_completed_count`). Building Engineering
   into AdminVerified this week risked copying the wrong schema under
   deadline pressure — deferred to v2, after that boundary gets written
-  down explicitly in `katiwala-owner-os-`'s own docs.
+  down explicitly in `katiwala-owner-os-`'s own docs.~~ **Shipped 2026-07-29**
+  — founder decision: Arlene's Engineering & Maintenance work is scoped
+  under AdminVerified, not a standalone Phase 3 `department_reports`
+  column. The migration 046 boundary is now written down explicitly (see
+  the correction comment added to that migration and the dated note in
+  `katiwala-owner-os-`'s `docs/KATIWALA_GAS_STATION_MASTER_DIRECTION.md`).
+  `av_engineering_reports` (migration `0002_engineering_reports.sql`,
+  mirrored as `katiwala-owner-os-`'s migration
+  `112_engineering_reports_adminverified.sql`) matches the real two-field
+  shape (`open_repair_count`, `repairs_completed_count`) plus
+  `station_code`/`report_date`/`notes`/`reported_by`, not migration 046's
+  schema. No list/create UI for it yet — schema only, same trajectory
+  compliance items took (schema first, UI in a later pass).
 - Any cross-repo bridge (an `/api/lens-summary`-style endpoint so Owner's
   Lens shows a live compliance signal). StaffVerified has exactly one such
   bridge; PNLVerified has none yet either. Build this only once this
@@ -105,7 +117,7 @@ dedicated project makes more sense.
 
 ## Open items for the build phase
 
-- Compliance list/create/status-update UI (the actual v1 feature).
-- Engineering module (v2, once the Ops boundary is documented).
+- ~~Compliance list/create/status-update UI (the actual v1 feature).~~ Shipped 2026-07-24.
+- ~~Engineering module (v2, once the Ops boundary is documented).~~ Schema shipped 2026-07-29 (`av_engineering_reports`); list/create/status-update UI for it still open.
 - Decide the cross-repo signal mechanism into Owner's Lens.
 - Revisit whether this should move to its own Supabase project.
