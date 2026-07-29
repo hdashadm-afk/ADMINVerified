@@ -65,3 +65,33 @@ export async function createComplianceItem(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/new");
 }
+
+// Engineering reports are periodic snapshots (a repair-count reading for
+// a given date/station), not lifecycle items like compliance items — no
+// status field, no history trail. See av_engineering_reports' migration
+// comment for why this is a deliberately different, simpler shape than
+// migration 046's Ops schema.
+export async function createEngineeringReport(formData: FormData) {
+  const supabase = await createClient();
+  await currentUserId(supabase); // just confirms signed-in, same guard as compliance actions
+
+  const station_code = (formData.get("station_code") as string) || null;
+  const report_date = (formData.get("report_date") as string) || new Date().toISOString().slice(0, 10);
+  const open_repair_count_raw = formData.get("open_repair_count") as string;
+  const repairs_completed_count_raw = formData.get("repairs_completed_count") as string;
+  const notes = (formData.get("notes") as string) || null;
+  const reported_by = (formData.get("reported_by") as string) || null;
+
+  const { error } = await supabase.from("av_engineering_reports").insert({
+    station_code,
+    report_date,
+    open_repair_count: open_repair_count_raw === "" ? null : Number(open_repair_count_raw),
+    repairs_completed_count: repairs_completed_count_raw === "" ? null : Number(repairs_completed_count_raw),
+    notes,
+    reported_by,
+  });
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/engineering");
+  revalidatePath("/engineering/new");
+}

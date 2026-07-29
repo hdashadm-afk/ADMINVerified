@@ -25,6 +25,12 @@ export async function Nav() {
           <Link href="/new" className="text-sm text-neutral-600 hover:text-neutral-900">
             Add Item
           </Link>
+          <Link href="/engineering" className="text-sm text-neutral-600 hover:text-neutral-900">
+            Engineering
+          </Link>
+          <Link href="/engineering/new" className="text-sm text-neutral-600 hover:text-neutral-900">
+            Add Report
+          </Link>
         </div>
         <form action={signOut}>
           <button type="submit" className="text-sm text-neutral-500 hover:text-neutral-900">

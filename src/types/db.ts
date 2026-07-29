@@ -22,3 +22,14 @@ export type ComplianceItem = {
   updated_at: string;
   av_compliance_item_types: ComplianceItemType | null;
 };
+
+export type EngineeringReport = {
+  id: string;
+  station_code: string | null;
+  report_date: string;
+  open_repair_count: number | null;
+  repairs_completed_count: number | null;
+  notes: string | null;
+  reported_by: string | null;
+  created_at: string;
+};
